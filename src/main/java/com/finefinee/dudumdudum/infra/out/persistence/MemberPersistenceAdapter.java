@@ -1,6 +1,5 @@
 package com.finefinee.dudumdudum.infra.out.persistence;
 
-import com.finefinee.dudumdudum.domain.member.Member;
 import com.finefinee.dudumdudum.domain.member.MemberRepository;
 import org.springframework.stereotype.Repository;
 
@@ -16,12 +15,12 @@ public class MemberPersistenceAdapter implements MemberRepository {
     }
 
     @Override
-    public void save(Member member) {
+    public void save(MemberEntity member) {
         jpaMemberRepository.save(member);
     }
 
     @Override
-    public Optional<Member> findById(String id) {
+    public Optional<MemberEntity> findById(String id) {
         return jpaMemberRepository.findById(id);
     }
 }
