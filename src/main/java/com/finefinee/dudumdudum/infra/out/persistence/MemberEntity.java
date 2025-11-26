@@ -1,5 +1,6 @@
 package com.finefinee.dudumdudum.infra.out.persistence;
 
+import com.finefinee.dudumdudum.domain.member.Member;
 import com.finefinee.dudumdudum.domain.member.Role;
 import jakarta.persistence.*;
 import lombok.*;
@@ -34,5 +35,27 @@ public class MemberEntity {
         this.classNumber = classNumber;
         this.grade = grade;
         this.role = role;
+    }
+
+    public static MemberEntity from(Member member) {
+        return MemberEntity.builder()
+                .id(member.getId())
+                .name(member.getName())
+                .password(member.getPassword())
+                .grade(member.getGrade())
+                .classNumber(member.getClassNumber())
+                .role(member.getRole())
+                .build();
+    }
+
+    public Member toDomain() {
+        return Member.builder()
+                .id(id)
+                .name(name)
+                .password(password)
+                .grade(grade)
+                .classNumber(classNumber)
+                .role(role)
+                .build();
     }
 }
