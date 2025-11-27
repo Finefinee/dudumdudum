@@ -27,4 +27,8 @@ public class Member {
         this.grade = grade;
         this.role = role;
     }
+
+    public void setPasswordToEncoded(String password) {
+        this.password = password;
+    }
 }

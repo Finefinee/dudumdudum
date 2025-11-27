@@ -14,10 +14,10 @@ public class SignUpCommand {
     private Integer classNumber;
     private Role role;
 
-    public static Member toMember(SignUpCommand command) {
+    public static Member toMember(SignUpCommand command, String encodedPassword) {
         return Member.builder()
                 .name(command.getName())
-                .password(command.getPassword())
+                .password(encodedPassword)
                 .grade(command.getGrade())
                 .classNumber(command.getClassNumber())
                 .role(command.getRole())
