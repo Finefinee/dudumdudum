@@ -1,7 +1,6 @@
 package com.finefinee.dudumdudum.application.port.out;
 
 import com.finefinee.dudumdudum.domain.member.Member;
-import com.finefinee.dudumdudum.infra.out.persistence.MemberEntity;
 
 import java.util.Optional;
 
