@@ -47,6 +47,11 @@ public class Member {
         this.password = password;
     }
 
+    public static Member create(String memberId, String name, String password, Integer grade, Integer classNumber, Role role) {
+        MemberStatus initialStatus = (role == Role.TEACHER) ? MemberStatus.PENDING : MemberStatus.ACTIVE;
+        return new Member(memberId, name, password, classNumber, grade, role, initialStatus);
+    }
+
     public void approve() {
         this.status = MemberStatus.ACTIVE;
     }
