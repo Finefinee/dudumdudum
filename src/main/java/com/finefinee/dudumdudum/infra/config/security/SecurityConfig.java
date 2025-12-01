@@ -21,6 +21,8 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/auth/signup", "/auth/login").permitAll()
+                        .requestMatchers("/swagger-ui/**", "/v3/api-docs/**", "/api-docs/**", "/swagger-ui.html").permitAll()
+                        .requestMatchers("/actuator/**").permitAll()
                         .requestMatchers("/sleepover/apply", "/sleepover/my").hasRole("STUDENT")
                         .requestMatchers("/sleepover/all").hasRole("TEACHER")
                         .requestMatchers("/admin/**").hasRole("ADMIN")

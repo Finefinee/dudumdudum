@@ -56,35 +56,4 @@ public class Member {
         this.status = MemberStatus.ACTIVE;
     }
 
-    public Role getRole() {
-        return role;
-    }
-
-    public MemberStatus getStatus() {
-        return status;
-    }
-
-    public UUID getId() {
-        return id;
-    }
-
-    public String getMemberId() {
-        return memberId;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public Integer getGrade() {
-        return grade;
-    }
-
-    public Integer getClassNumber() {
-        return classNumber;
-    }
 }
