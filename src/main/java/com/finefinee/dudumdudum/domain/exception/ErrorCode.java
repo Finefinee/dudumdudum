@@ -19,6 +19,7 @@ public enum ErrorCode {
     MEMBER_NOT_FOUND(HttpStatus.NOT_FOUND, "M001", "회원을 찾을 수 없습니다."),
     EMAIL_DUPLICATION(HttpStatus.BAD_REQUEST, "M002", "이미 존재하는 이메일입니다."),
     LOGIN_FAILED(HttpStatus.UNAUTHORIZED, "M003", "로그인에 실패했습니다."),
+    ADMIN_SIGNUP_NOT_ALLOWED(HttpStatus.FORBIDDEN, "M004", "관리자 권한으로 회원가입할 수 없습니다."),
 
     // Sleepover
     SLEEPOVER_DATE_INVALID(HttpStatus.BAD_REQUEST, "S001", "외박 신청은 토요일 ~ 일요일 오후 6시까지만 가능합니다."),
