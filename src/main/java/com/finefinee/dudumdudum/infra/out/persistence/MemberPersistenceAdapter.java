@@ -11,24 +11,20 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class MemberPersistenceAdapter implements MemberRepository {
 
-    private final JpaMemberRepository jpaMemberRepository;
+    private final MemberJpaRepository memberJpaRepository;
 
     @Override
     public void save(Member member) {
-        // 1. 도메인(Member) -> 엔티티(MemberEntity) 변환
-        // (변환 로직은 Entity 내부에 static 메서드나 Mapper 클래스로 만듦)
-        MemberEntity entity = MemberEntity.from(member);
-
-        // 2. JPA 저장
-        jpaMemberRepository.save(entity);
+        memberJpaRepository.save(member);
     }
 
     @Override
-    public Optional<Member> findById(String id) {
-        // 1. JPA 조회 (결과는 Entity)
-        Optional<MemberEntity> entityOptional = jpaMemberRepository.findById(id);
+    public Optional<Member> findById(java.util.UUID id) {
+        return memberJpaRepository.findById(id);
+    }
 
-        // 2. 엔티티(MemberEntity) -> 도메인(Member) 변환해서 리턴
-        return entityOptional.map(MemberEntity::toDomain);
+    @Override
+    public Optional<Member> findByMemberId(String memberId) {
+        return memberJpaRepository.findByMemberId(memberId);
     }
 }

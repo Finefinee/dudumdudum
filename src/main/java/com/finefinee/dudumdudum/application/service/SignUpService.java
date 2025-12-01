@@ -18,14 +18,23 @@ public class SignUpService implements SignUpUseCase {
     private final MemberRepository memberRepository;
 
     @Override
-    public void joinMember(SignUpCommand command) {
+    public java.util.UUID joinMember(SignUpCommand command) {
 
         String encodedPassword = passwordEncoder.encode(command.getPassword());
 
-        Member member = SignUpCommand.toMember(command, encodedPassword);
+        Member member = Member.builder()
+                .id(null)
+                .memberId(command.getMemberId())
+                .name(command.getName())
+                .password(encodedPassword)
+                .grade(command.getGrade())
+                .classNumber(command.getClassNumber())
+                .role(command.getRole())
+                .build();
 
         memberRepository.save(member);
-
+        
+        return member.getId();
     }
 
 }

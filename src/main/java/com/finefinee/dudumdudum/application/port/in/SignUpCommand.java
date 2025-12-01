@@ -8,6 +8,7 @@ import lombok.Getter;
 @Getter
 @Builder
 public class SignUpCommand {
+    private String memberId;
     private String name;
     private String password;
     private Integer grade;
@@ -16,6 +17,7 @@ public class SignUpCommand {
 
     public static Member toMember(SignUpCommand command, String encodedPassword) {
         return Member.builder()
+                .memberId(command.getMemberId())
                 .name(command.getName())
                 .password(encodedPassword)
                 .grade(command.getGrade())

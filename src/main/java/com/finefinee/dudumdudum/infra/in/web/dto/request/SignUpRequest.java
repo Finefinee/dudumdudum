@@ -11,6 +11,9 @@ import lombok.Getter;
 @Builder
 public class SignUpRequest {
 
+    @NotBlank(message = "아이디는 필수입니다.")
+    private String memberId;
+
     @NotBlank(message = "이름은 필수입니다.")
     private String name;
 
@@ -26,6 +29,7 @@ public class SignUpRequest {
 
     public SignUpCommand toCommand() {
         return SignUpCommand.builder()
+                .memberId(memberId)
                 .name(name)
                 .password(password)
                 .grade(grade)
