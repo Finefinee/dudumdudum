@@ -5,7 +5,9 @@ import com.finefinee.dudumdudum.domain.member.Member;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Repository
 @RequiredArgsConstructor
@@ -19,12 +21,17 @@ public class MemberPersistenceAdapter implements MemberRepository {
     }
 
     @Override
-    public Optional<Member> findById(java.util.UUID id) {
+    public Optional<Member> findById(UUID id) {
         return memberJpaRepository.findById(id);
     }
 
     @Override
     public Optional<Member> findByMemberId(String memberId) {
         return memberJpaRepository.findByMemberId(memberId);
+    }
+
+    @Override
+    public List<Member> findAll() {
+        return memberJpaRepository.findAll();
     }
 }

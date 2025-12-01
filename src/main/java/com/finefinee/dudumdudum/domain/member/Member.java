@@ -30,16 +30,56 @@ public class Member {
     @Enumerated(EnumType.STRING)
     private Role role;
 
-    public Member(String memberId, String name, String password, Integer classNumber, Integer grade, Role role) {
+    @Enumerated(EnumType.STRING)
+    private MemberStatus status;
+
+    public Member(String memberId, String name, String password, Integer classNumber, Integer grade, Role role, MemberStatus status) {
         this.memberId = memberId;
         this.name = name;
         this.password = password;
         this.classNumber = classNumber;
         this.grade = grade;
         this.role = role;
+        this.status = status;
     }
 
     public void setPasswordToEncoded(String password) {
         this.password = password;
+    }
+
+    public void approve() {
+        this.status = MemberStatus.ACTIVE;
+    }
+
+    public Role getRole() {
+        return role;
+    }
+
+    public MemberStatus getStatus() {
+        return status;
+    }
+
+    public UUID getId() {
+        return id;
+    }
+
+    public String getMemberId() {
+        return memberId;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public Integer getGrade() {
+        return grade;
+    }
+
+    public Integer getClassNumber() {
+        return classNumber;
     }
 }

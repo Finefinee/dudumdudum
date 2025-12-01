@@ -23,6 +23,7 @@ public class SecurityConfig {
                         .requestMatchers("/auth/signup", "/auth/login").permitAll()
                         .requestMatchers("/sleepover/apply", "/sleepover/my").hasRole("STUDENT")
                         .requestMatchers("/sleepover/all").hasRole("TEACHER")
+                        .requestMatchers("/admin/**").hasRole("ADMIN")
                         .anyRequest().authenticated()
                 )
                 .securityContext(securityContext -> securityContext
