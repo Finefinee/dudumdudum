@@ -21,11 +21,10 @@ public class ApproveTeacherService implements ApproveTeacherUseCase {
 
     @Override
     public void approveTeacher(UUID memberId) {
-        Member member = memberRepository.findById(memberId)
-                .orElseThrow(() -> new BusinessException(ErrorCode.MEMBER_NOT_FOUND));
+        Member member = memberRepository.findByIdOrThrow(memberId);
         
         if (member.getRole() != Role.TEACHER) {
-            throw new IllegalArgumentException("Not a teacher");
+            throw new BusinessException(ErrorCode.INVALID_ROLE);
         }
         
         member.approve();

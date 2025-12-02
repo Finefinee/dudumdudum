@@ -20,6 +20,8 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class ApplySleepoverService implements ApplySleepoverUseCase {
 
+    private static final int APPLICATION_DEADLINE_HOUR = 18;
+
     private final SleepoverRepository sleepoverRepository;
     private final MemberRepository memberRepository;
 
@@ -27,8 +29,7 @@ public class ApplySleepoverService implements ApplySleepoverUseCase {
     public void applySleepover(UUID memberId) {
         checkApplicationTime();
 
-        Member member = memberRepository.findById(memberId)
-                .orElseThrow(() -> new BusinessException(ErrorCode.MEMBER_NOT_FOUND));
+        Member member = memberRepository.findByIdOrThrow(memberId);
         
         Sleepover sleepover = Sleepover.create(member);
         sleepoverRepository.save(sleepover);
@@ -40,7 +41,7 @@ public class ApplySleepoverService implements ApplySleepoverUseCase {
         int hour = now.getHour();
 
         boolean isSaturday = day == DayOfWeek.SATURDAY;
-        boolean isSunday = day == DayOfWeek.SUNDAY && hour < 18;
+        boolean isSunday = day == DayOfWeek.SUNDAY && hour < APPLICATION_DEADLINE_HOUR;
 
         if (!isSaturday && !isSunday) {
             throw new BusinessException(ErrorCode.SLEEPOVER_DATE_INVALID);

@@ -6,6 +6,7 @@ import com.finefinee.dudumdudum.infra.in.web.dto.common.ErrorResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.DisabledException;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -35,6 +36,16 @@ public class GlobalExceptionHandler {
         log.error("handleHttpRequestMethodNotSupportedException", e);
         final ErrorResponse response = ErrorResponse.of(ErrorCode.METHOD_NOT_ALLOWED);
         return new ResponseEntity<>(response, HttpStatus.METHOD_NOT_ALLOWED);
+    }
+
+    /**
+     * 계정이 승인 대기 중일 때 발생
+     */
+    @ExceptionHandler(DisabledException.class)
+    protected ResponseEntity<ErrorResponse> handleDisabledException(DisabledException e) {
+        log.error("handleDisabledException", e);
+        final ErrorResponse response = ErrorResponse.of(ErrorCode.LOGIN_FAILED, "계정이 승인 대기 중입니다.");
+        return new ResponseEntity<>(response, HttpStatus.FORBIDDEN);
     }
 
     /**

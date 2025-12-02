@@ -2,6 +2,8 @@ package com.finefinee.dudumdudum.infra.out.persistence;
 
 import com.finefinee.dudumdudum.application.port.out.MemberRepository;
 import com.finefinee.dudumdudum.domain.member.Member;
+import com.finefinee.dudumdudum.domain.member.MemberStatus;
+import com.finefinee.dudumdudum.domain.member.Role;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
@@ -33,5 +35,10 @@ public class MemberPersistenceAdapter implements MemberRepository {
     @Override
     public List<Member> findAll() {
         return memberJpaRepository.findAll();
+    }
+
+    @Override
+    public List<Member> findByRoleAndStatus(Role role, MemberStatus status) {
+        return memberJpaRepository.findByRoleAndStatus(role, status);
     }
 }

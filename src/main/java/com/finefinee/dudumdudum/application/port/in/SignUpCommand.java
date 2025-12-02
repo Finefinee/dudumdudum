@@ -13,28 +13,4 @@ public class SignUpCommand {
     private Integer grade;
     private Integer classNumber;
     private Role role;
-
-    public String getMemberId() {
-        return memberId;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public Integer getGrade() {
-        return grade;
-    }
-
-    public Integer getClassNumber() {
-        return classNumber;
-    }
-
-    public Role getRole() {
-        return role;
-    }
 }
