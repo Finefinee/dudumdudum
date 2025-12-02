@@ -5,6 +5,7 @@ import com.finefinee.dudumdudum.application.port.in.GetMySleepoversUseCase;
 import com.finefinee.dudumdudum.application.port.in.GetRecentSleepoversUseCase;
 import com.finefinee.dudumdudum.application.port.out.SleepoverRepository;
 import com.finefinee.dudumdudum.domain.sleepover.Sleepover;
+import io.micrometer.core.instrument.Clock;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,6 +23,7 @@ public class ReadSleepoverService implements GetAllSleepoversUseCase, GetMySleep
     private static final int SLEEPOVER_DEADLINE_HOUR = 18;
 
     private final SleepoverRepository sleepoverRepository;
+    private final Clock clock;
 
     @Override
     public List<Sleepover> getAllSleepovers() {
@@ -35,7 +37,7 @@ public class ReadSleepoverService implements GetAllSleepoversUseCase, GetMySleep
 
     @Override
     public List<Sleepover> getRecentSleepovers() {
-        LocalDateTime now = LocalDateTime.now();
+        LocalDateTime now = LocalDateTime.now((java.time.Clock) clock);
         LocalDateTime startOfWeek = now.with(DayOfWeek.SATURDAY).withHour(0).withMinute(0).withSecond(0).withNano(0);
         
         if (now.getDayOfWeek() != DayOfWeek.SATURDAY && now.getDayOfWeek() != DayOfWeek.SUNDAY) {
