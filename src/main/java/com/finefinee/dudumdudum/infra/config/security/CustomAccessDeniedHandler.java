@@ -15,6 +15,8 @@ import org.springframework.web.servlet.HandlerExceptionResolver;
 
 import java.io.IOException;
 
+import org.springframework.security.web.csrf.CsrfException;
+
 @Component
 public class CustomAccessDeniedHandler implements AccessDeniedHandler {
 
@@ -26,6 +28,11 @@ public class CustomAccessDeniedHandler implements AccessDeniedHandler {
 
     @Override
     public void handle(HttpServletRequest request, HttpServletResponse response, AccessDeniedException accessDeniedException) throws IOException, ServletException {
+        if (accessDeniedException instanceof CsrfException) {
+            resolver.resolveException(request, response, null, accessDeniedException);
+            return;
+        }
+
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication == null || isAnonymous(authentication)) {
             resolver.resolveException(request, response, null, new InsufficientAuthenticationException("인증이 필요합니다.", accessDeniedException));

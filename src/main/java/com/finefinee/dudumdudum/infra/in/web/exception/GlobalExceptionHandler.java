@@ -10,6 +10,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.web.csrf.InvalidCsrfTokenException;
+import org.springframework.security.web.csrf.MissingCsrfTokenException;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -58,6 +60,16 @@ public class GlobalExceptionHandler {
     protected ResponseEntity<ErrorResponse> handleAccessDeniedException(AccessDeniedException e) {
         log.warn("handleAccessDeniedException: {}", e.getMessage());
         final ErrorResponse response = ErrorResponse.of(ErrorCode.ACCESS_DENIED);
+        return new ResponseEntity<>(response, HttpStatus.FORBIDDEN);
+    }
+
+    /**
+     * CSRF 토큰이 누락되었거나 유효하지 않을 때 발생
+     */
+    @ExceptionHandler({MissingCsrfTokenException.class, InvalidCsrfTokenException.class})
+    protected ResponseEntity<ErrorResponse> handleCsrfException(Exception e) {
+        log.warn("handleCsrfException: {}", e.getMessage());
+        final ErrorResponse response = ErrorResponse.of(ErrorCode.ACCESS_DENIED, "CSRF 토큰이 누락되었거나 유효하지 않습니다.");
         return new ResponseEntity<>(response, HttpStatus.FORBIDDEN);
     }
 

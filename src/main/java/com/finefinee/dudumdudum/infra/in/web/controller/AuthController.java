@@ -17,6 +17,7 @@ import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
 import org.springframework.security.web.context.SecurityContextRepository;
@@ -45,8 +46,11 @@ public class AuthController {
                     new UsernamePasswordAuthenticationToken(request.getMemberId(), request.getPassword())
             );
 
-            SecurityContextHolder.getContext().setAuthentication(authentication);
-            securityContextRepository.saveContext(SecurityContextHolder.getContext(), servletRequest, servletResponse);
+            SecurityContext context = SecurityContextHolder.createEmptyContext();
+            context.setAuthentication(authentication);
+            SecurityContextHolder.setContext(context);
+            
+            securityContextRepository.saveContext(context, servletRequest, servletResponse);
 
             return new ApiResponse<>(200, "로그인 성공", null);
         } catch (DisabledException e) {
