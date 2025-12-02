@@ -46,7 +46,7 @@ public class GlobalExceptionHandler {
      */
     @ExceptionHandler(AuthenticationException.class)
     protected ResponseEntity<ErrorResponse> handleAuthenticationException(AuthenticationException e) {
-        log.error("handleAuthenticationException", e);
+        log.warn("handleAuthenticationException: {}", e.getMessage());
         final ErrorResponse response = ErrorResponse.of(ErrorCode.UNAUTHORIZED);
         return new ResponseEntity<>(response, HttpStatus.UNAUTHORIZED);
     }
@@ -56,7 +56,7 @@ public class GlobalExceptionHandler {
      */
     @ExceptionHandler(AccessDeniedException.class)
     protected ResponseEntity<ErrorResponse> handleAccessDeniedException(AccessDeniedException e) {
-        log.error("handleAccessDeniedException", e);
+        log.warn("handleAccessDeniedException: {}", e.getMessage());
         final ErrorResponse response = ErrorResponse.of(ErrorCode.ACCESS_DENIED);
         return new ResponseEntity<>(response, HttpStatus.FORBIDDEN);
     }
