@@ -4,6 +4,7 @@ import com.finefinee.dudumdudum.domain.exception.BusinessException;
 import com.finefinee.dudumdudum.domain.exception.ErrorCode;
 import com.finefinee.dudumdudum.infra.in.web.dto.common.ErrorResponse;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.DisabledException;
@@ -46,6 +47,16 @@ public class GlobalExceptionHandler {
         log.error("handleDisabledException", e);
         final ErrorResponse response = ErrorResponse.of(ErrorCode.LOGIN_FAILED, "계정이 승인 대기 중입니다.");
         return new ResponseEntity<>(response, HttpStatus.FORBIDDEN);
+    }
+
+    /**
+     * 데이터베이스 제약조건 위반 시 발생 (중복 키, NOT NULL 등)
+     */
+    @ExceptionHandler(DataIntegrityViolationException.class)
+    protected ResponseEntity<ErrorResponse> handleDataIntegrityViolationException(DataIntegrityViolationException e) {
+        log.error("handleDataIntegrityViolationException", e);
+        final ErrorResponse response = ErrorResponse.of(ErrorCode.INVALID_INPUT_VALUE, "데이터 무결성 제약조건을 위반했습니다.");
+        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
 
     /**

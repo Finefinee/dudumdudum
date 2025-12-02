@@ -15,6 +15,7 @@ public interface SleepoverRepository {
     Optional<Sleepover> findById(UUID id);
     java.util.List<Sleepover> findByMemberId(java.util.UUID memberId);
     List<Sleepover> findByAppliedAtBetween(LocalDateTime start, LocalDateTime end);
+    List<Sleepover> findByMemberIdAndAppliedAtBetween(UUID memberId, LocalDateTime start, LocalDateTime end);
     
     default Sleepover findByIdOrThrow(UUID id) {
         return findById(id)
