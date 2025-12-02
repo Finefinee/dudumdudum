@@ -24,6 +24,7 @@ public enum ErrorCode {
     ADMIN_SIGNUP_NOT_ALLOWED(HttpStatus.FORBIDDEN, "M004", "관리자 권한으로 회원가입할 수 없습니다."),
     INVALID_ROLE(HttpStatus.BAD_REQUEST, "M005", "잘못된 권한입니다."),
     MEMBER_ID_DUPLICATION(HttpStatus.BAD_REQUEST, "M006", "이미 존재하는 아이디입니다."),
+    ACCOUNT_PENDING_APPROVAL(HttpStatus.FORBIDDEN, "M007", "계정이 승인 대기 중입니다."),
 
     // Sleepover
     SLEEPOVER_DATE_INVALID(HttpStatus.BAD_REQUEST, "S001", "외박 신청은 토요일 ~ 일요일 오후 6시까지만 가능합니다."),

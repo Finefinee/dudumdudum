@@ -66,8 +66,8 @@ public class GlobalExceptionHandler {
      */
     @ExceptionHandler(DisabledException.class)
     protected ResponseEntity<ErrorResponse> handleDisabledException(DisabledException e) {
-        log.error("handleDisabledException", e);
-        final ErrorResponse response = ErrorResponse.of(ErrorCode.LOGIN_FAILED, "계정이 승인 대기 중입니다.");
+        log.warn("handleDisabledException: {}", e.getMessage());
+        final ErrorResponse response = ErrorResponse.of(ErrorCode.ACCOUNT_PENDING_APPROVAL);
         return new ResponseEntity<>(response, HttpStatus.FORBIDDEN);
     }
 
