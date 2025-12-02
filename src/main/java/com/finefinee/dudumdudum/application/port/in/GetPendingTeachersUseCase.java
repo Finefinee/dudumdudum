@@ -1,8 +1,8 @@
 package com.finefinee.dudumdudum.application.port.in;
 
-import com.finefinee.dudumdudum.infra.in.web.dto.response.MemberResponse;
+import com.finefinee.dudumdudum.domain.member.Member;
 import java.util.List;
 
 public interface GetPendingTeachersUseCase {
-    List<MemberResponse> getPendingTeachers();
+    List<Member> getPendingTeachers();
 }
