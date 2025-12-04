@@ -27,10 +27,6 @@ public class SignUpService implements SignUpUseCase {
             throw new BusinessException(ErrorCode.ADMIN_SIGNUP_NOT_ALLOWED);
         }
 
-        if (memberRepository.findByMemberId(command.getMemberId()).isPresent()) {
-            throw new BusinessException(ErrorCode.MEMBER_ID_DUPLICATION);
-        }
-
         String encodedPassword = passwordEncoder.encode(command.getPassword());
 
         Member member = Member.create(

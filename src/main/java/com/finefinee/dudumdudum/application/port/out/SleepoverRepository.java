@@ -1,7 +1,5 @@
 package com.finefinee.dudumdudum.application.port.out;
 
-import com.finefinee.dudumdudum.domain.exception.BusinessException;
-import com.finefinee.dudumdudum.domain.exception.ErrorCode;
 import com.finefinee.dudumdudum.domain.sleepover.Sleepover;
 import java.util.List;
 import java.util.Optional;
@@ -15,10 +13,4 @@ public interface SleepoverRepository {
     Optional<Sleepover> findById(UUID id);
     java.util.List<Sleepover> findByMemberId(java.util.UUID memberId);
     List<Sleepover> findByAppliedAtBetween(LocalDateTime start, LocalDateTime end);
-    List<Sleepover> findByMemberIdAndAppliedAtBetween(UUID memberId, LocalDateTime start, LocalDateTime end);
-    
-    default Sleepover findByIdOrThrow(UUID id) {
-        return findById(id)
-                .orElseThrow(() -> new BusinessException(ErrorCode.SLEEPOVER_NOT_FOUND));
-    }
 }

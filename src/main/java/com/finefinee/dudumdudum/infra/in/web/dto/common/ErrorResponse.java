@@ -9,19 +9,19 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class ErrorResponse {
 
-    private int status;
     private String message;
     private String code;
+    private int status;
 
     private ErrorResponse(final ErrorCode code) {
-        this.status = code.getStatus().value();
         this.message = code.getMessage();
+        this.status = code.getStatus().value();
         this.code = code.getCode();
     }
 
     private ErrorResponse(final ErrorCode code, final String message) {
-        this.status = code.getStatus().value();
         this.message = message;
+        this.status = code.getStatus().value();
         this.code = code.getCode();
     }
 

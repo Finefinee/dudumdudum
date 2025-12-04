@@ -22,6 +22,10 @@ public class CustomUserDetailsService implements UserDetailsService {
         Member member = memberRepository.findByMemberId(username)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found with memberId: " + username));
         
+        if (member.getStatus() == MemberStatus.PENDING) {
+            throw new DisabledException("Account is pending approval");
+        }
+        
         return new CustomUserDetails(member);
     }
 }

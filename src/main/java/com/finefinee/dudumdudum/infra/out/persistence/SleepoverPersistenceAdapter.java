@@ -40,9 +40,4 @@ public class SleepoverPersistenceAdapter implements SleepoverRepository {
     public List<Sleepover> findByAppliedAtBetween(LocalDateTime start, LocalDateTime end) {
         return sleepoverJpaRepository.findByAppliedAtBetween(start, end);
     }
-
-    @Override
-    public List<Sleepover> findByMemberIdAndAppliedAtBetween(UUID memberId, LocalDateTime start, LocalDateTime end) {
-        return sleepoverJpaRepository.findByMemberIdAndAppliedAtBetween(memberId, start, end);
-    }
 }

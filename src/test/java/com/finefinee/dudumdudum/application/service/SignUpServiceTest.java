@@ -38,10 +38,9 @@ class SignUpServiceTest {
                 .role(Role.ADMIN)
                 .build();
 
-        // when & then
+        // when and then
         assertThatThrownBy(() -> signUpService.joinMember(command))
                 .isInstanceOf(BusinessException.class)
-                .extracting("errorCode")
-                .isEqualTo(ErrorCode.ADMIN_SIGNUP_NOT_ALLOWED);
+                .hasFieldOrPropertyWithValue("errorCode", ErrorCode.ADMIN_SIGNUP_NOT_ALLOWED);
     }
 }
