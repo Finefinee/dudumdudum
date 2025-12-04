@@ -4,8 +4,14 @@ import com.finefinee.dudumdudum.domain.exception.BusinessException;
 import com.finefinee.dudumdudum.domain.exception.ErrorCode;
 import com.finefinee.dudumdudum.infra.in.web.dto.common.ErrorResponse;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.authentication.DisabledException;
+import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.web.csrf.InvalidCsrfTokenException;
+import org.springframework.security.web.csrf.MissingCsrfTokenException;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -35,6 +41,56 @@ public class GlobalExceptionHandler {
         log.error("handleHttpRequestMethodNotSupportedException", e);
         final ErrorResponse response = ErrorResponse.of(ErrorCode.METHOD_NOT_ALLOWED);
         return new ResponseEntity<>(response, HttpStatus.METHOD_NOT_ALLOWED);
+    }
+
+    /**
+     * Spring Security 인증 실패 시 발생 (로그인하지 않은 사용자)
+     */
+    @ExceptionHandler(AuthenticationException.class)
+    protected ResponseEntity<ErrorResponse> handleAuthenticationException(AuthenticationException e) {
+        log.warn("handleAuthenticationException: {}", e.getMessage());
+        final ErrorResponse response = ErrorResponse.of(ErrorCode.UNAUTHORIZED);
+        return new ResponseEntity<>(response, HttpStatus.UNAUTHORIZED);
+    }
+
+    /**
+     * Spring Security 권한 부족 시 발생 (접근 권한이 없는 리소스)
+     */
+    @ExceptionHandler(AccessDeniedException.class)
+    protected ResponseEntity<ErrorResponse> handleAccessDeniedException(AccessDeniedException e) {
+        log.warn("handleAccessDeniedException: {}", e.getMessage());
+        final ErrorResponse response = ErrorResponse.of(ErrorCode.ACCESS_DENIED);
+        return new ResponseEntity<>(response, HttpStatus.FORBIDDEN);
+    }
+
+    /**
+     * CSRF 토큰이 누락되었거나 유효하지 않을 때 발생
+     */
+    @ExceptionHandler({MissingCsrfTokenException.class, InvalidCsrfTokenException.class})
+    protected ResponseEntity<ErrorResponse> handleCsrfException(Exception e) {
+        log.warn("handleCsrfException: {}", e.getMessage());
+        final ErrorResponse response = ErrorResponse.of(ErrorCode.ACCESS_DENIED, "CSRF 토큰이 누락되었거나 유효하지 않습니다.");
+        return new ResponseEntity<>(response, HttpStatus.FORBIDDEN);
+    }
+
+    /**
+     * 계정이 승인 대기 중일 때 발생
+     */
+    @ExceptionHandler(DisabledException.class)
+    protected ResponseEntity<ErrorResponse> handleDisabledException(DisabledException e) {
+        log.warn("handleDisabledException: {}", e.getMessage());
+        final ErrorResponse response = ErrorResponse.of(ErrorCode.ACCOUNT_PENDING_APPROVAL);
+        return new ResponseEntity<>(response, HttpStatus.FORBIDDEN);
+    }
+
+    /**
+     * 데이터베이스 제약조건 위반 시 발생 (중복 키, NOT NULL 등)
+     */
+    @ExceptionHandler(DataIntegrityViolationException.class)
+    protected ResponseEntity<ErrorResponse> handleDataIntegrityViolationException(DataIntegrityViolationException e) {
+        log.error("handleDataIntegrityViolationException", e);
+        final ErrorResponse response = ErrorResponse.of(ErrorCode.INVALID_INPUT_VALUE, "데이터 무결성 제약조건을 위반했습니다.");
+        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
 
     /**

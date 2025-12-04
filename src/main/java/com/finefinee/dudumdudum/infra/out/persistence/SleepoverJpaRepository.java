@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.UUID;
 
 public interface SleepoverJpaRepository extends JpaRepository<Sleepover, UUID> {
-    java.util.List<Sleepover> findByMemberId(java.util.UUID memberId);
+    List<Sleepover> findByMemberId(UUID memberId);
     List<Sleepover> findByAppliedAtBetween(LocalDateTime start, LocalDateTime end);
+    List<Sleepover> findByMemberIdAndAppliedAtBetween(UUID memberId, LocalDateTime start, LocalDateTime end);
 }
