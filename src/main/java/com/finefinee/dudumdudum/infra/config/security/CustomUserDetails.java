@@ -1,7 +1,6 @@
 package com.finefinee.dudumdudum.infra.config.security;
 
 import com.finefinee.dudumdudum.domain.member.Member;
-import com.finefinee.dudumdudum.domain.member.MemberStatus;
 import lombok.Getter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -51,6 +50,6 @@ public class CustomUserDetails implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return member.getStatus() == MemberStatus.ACTIVE;
+        return true;
     }
 }

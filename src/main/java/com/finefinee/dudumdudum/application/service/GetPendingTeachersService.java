@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional(readOnly = true)
@@ -20,6 +21,8 @@ public class GetPendingTeachersService implements GetPendingTeachersUseCase {
 
     @Override
     public List<Member> getPendingTeachers() {
-        return memberRepository.findByRoleAndStatus(Role.TEACHER, MemberStatus.PENDING);
+        return memberRepository.findAll().stream()
+                .filter(m -> m.getRole() == Role.TEACHER && m.getStatus() == MemberStatus.PENDING)
+                .collect(Collectors.toList());
     }
 }

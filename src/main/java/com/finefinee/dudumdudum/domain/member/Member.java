@@ -7,6 +7,7 @@ import java.util.UUID;
 
 @Entity
 @Getter
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Member {
@@ -32,13 +33,23 @@ public class Member {
     @Enumerated(EnumType.STRING)
     private MemberStatus status;
 
+    public Member(String memberId, String name, String password, Integer classNumber, Integer grade, Role role, MemberStatus status) {
+        this.memberId = memberId;
+        this.name = name;
+        this.password = password;
+        this.classNumber = classNumber;
+        this.grade = grade;
+        this.role = role;
+        this.status = status;
+    }
+
     public void setPasswordToEncoded(String password) {
         this.password = password;
     }
 
     public static Member create(String memberId, String name, String password, Integer grade, Integer classNumber, Role role) {
         MemberStatus initialStatus = (role == Role.TEACHER) ? MemberStatus.PENDING : MemberStatus.ACTIVE;
-        return new Member(null, memberId, name, password, grade, classNumber, role, initialStatus);
+        return new Member(memberId, name, password, classNumber, grade, role, initialStatus);
     }
 
     public void approve() {
