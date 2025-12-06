@@ -3,7 +3,6 @@ package com.finefinee.dudumdudum.domain.sleepover;
 import com.finefinee.dudumdudum.domain.member.Member;
 import jakarta.persistence.*;
 import lombok.*;
-
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 

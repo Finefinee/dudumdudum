@@ -2,14 +2,13 @@ package com.finefinee.dudumdudum.infra.config.security;
 
 import com.finefinee.dudumdudum.application.port.out.MemberRepository;
 import com.finefinee.dudumdudum.domain.member.Member;
+import com.finefinee.dudumdudum.domain.member.MemberStatus;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-
-import com.finefinee.dudumdudum.domain.member.MemberStatus;
-import org.springframework.security.authentication.DisabledException;
 
 @Service
 @RequiredArgsConstructor
